@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#9575cd</color>
+    <color name="colorPrimaryDark">#65499c</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorPrimaryAlpha50">#809575cd</color>
+
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="posts_list_background">#96FFFFFF</color>
+
+    <color name="text_color">@android:color/black</color>
+    <color name="text_label_color">#80000000</color>
+</resources>

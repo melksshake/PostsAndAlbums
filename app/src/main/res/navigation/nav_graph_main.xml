@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/postListFragment">
+
+    <fragment
+        android:id="@+id/postListFragment"
+        android:name="com.melkonian.postsandalbums.presentation.fragments.PostsListFragment"
+        android:label="@string/posts_list_title"
+        tools:layout="@layout/fmt_posts_list">
+
+        <action
+            android:id="@+id/action_postsList_to_postDetailed"
+            app:destination="@id/postDetailedFragment">
+            <argument
+                android:name="post_model"
+                app:argType="com.melkonian.postsandalbums.presentation.models.PostModel" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/postDetailedFragment"
+        android:name="com.melkonian.postsandalbums.presentation.fragments.PostDetailedFragment"
+        android:label="@string/post_detailed_title"
+        tools:layout="@layout/fmt_post_detailed">
+        <argument
+            android:name="post_model"
+            app:argType="com.melkonian.postsandalbums.presentation.models.PostModel"
+            app:nullable="false" />
+    </fragment>
+</navigation>

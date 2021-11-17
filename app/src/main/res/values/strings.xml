@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">postsandalbums</string>
+
+    <string name="loading_error_view_title">Error loading data</string>
+
+    <string name="posts_list_title">All generated posts</string>
+
+    <string name="post_detailed_title">Detailed post</string>
+    <string name="post_detailed_id_label">post id:</string>
+    <string name="post_detailed_title_label">post title:</string>
+    <string name="post_detailed_body_label">post body:</string>
+</resources>
