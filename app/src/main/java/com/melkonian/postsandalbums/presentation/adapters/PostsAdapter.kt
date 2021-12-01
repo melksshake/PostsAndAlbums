@@ -9,7 +9,7 @@ import com.melkonian.postsandalbums.databinding.ItemPostBinding
 import com.melkonian.postsandalbums.presentation.adapters.PostsAdapter.ViewHolder
 import com.melkonian.postsandalbums.presentation.models.PostModel
 
-class PostsAdapter() : ListAdapter<PostModel, ViewHolder>(DIFF_CALLBACK) {
+class PostsAdapter : ListAdapter<PostModel, ViewHolder>(DIFF_CALLBACK), MoveItem {
     companion object {
         /**
          * Callback for calculating the diff between two non-null items in a list.
@@ -29,21 +29,44 @@ class PostsAdapter() : ListAdapter<PostModel, ViewHolder>(DIFF_CALLBACK) {
     }
 
     private var onItemClick: ((PostModel) -> Unit)? = null
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
+    private var onItemLongClick: ((PostModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         ).apply {
             binding.root.setOnClickListener { onItemClick?.invoke(getItem(bindingAdapterPosition)) }
+            binding.root.setOnLongClickListener {
+                onItemLongClick?.invoke(getItem(bindingAdapterPosition))
+                return@setOnLongClickListener true
+            }
         }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
     fun setOnItemClickAction(action: ((PostModel) -> Unit)?) {
         onItemClick = action
+    }
+
+    fun setOnItemLongClickAction(action: ((PostModel) -> Unit)?) {
+        onItemLongClick = action
+    }
+
+    override fun moveItem(from: Int, to: Int) {
+        val list = currentList.toMutableList()
+        val fromLocation = list[from]
+        list.removeAt(from)
+
+        if (to < from) {
+            list.add(to + 1 , fromLocation)
+        } else {
+            list.add(to - 1, fromLocation)
+        }
+
+        submitList(list)
     }
 
     class ViewHolder(val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
