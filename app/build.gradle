@@ -69,7 +69,7 @@ configurations.all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
 
     // App dependencies
     implementation "androidx.appcompat:appcompat:1.4.0"
@@ -100,15 +100,15 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
 
-    implementation "com.google.dagger:hilt-android:2.38.1"
-    kapt "com.google.dagger:hilt-compiler:2.38.1"
+    implementation "com.google.dagger:hilt-android:2.40.1"
+    kapt "com.google.dagger:hilt-compiler:2.40.1"
 
     testImplementation "junit:junit:4.13.2"
     testImplementation "com.google.truth:truth:1.1.2"
     testImplementation "androidx.test.ext:junit:1.1.3"
 
     // Dependencies for Scenarios
-    debugImplementation "androidx.fragment:fragment-testing:1.3.6"
+    debugImplementation 'androidx.fragment:fragment-testing:1.4.0'
     debugImplementation "androidx.test:core-ktx:1.4.0"
 
     androidTestImplementation "androidx.test.ext:junit:1.1.3"
@@ -116,7 +116,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.4.0"
 
     // Hilt for Robolectric tests.
-    testImplementation "com.google.dagger:hilt-android-testing:2.38.1"
-    kaptTest "com.google.dagger:hilt-android-compiler:2.38.1"
+    testImplementation "com.google.dagger:hilt-android-testing:2.40.1"
+    kaptTest "com.google.dagger:hilt-android-compiler:2.40.1"
     testImplementation "org.robolectric:robolectric:4.6.1"
 }
