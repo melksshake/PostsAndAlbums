@@ -3,10 +3,19 @@
 
     <string name="loading_error_view_title">Error loading data</string>
 
+    <string name="start_screen_title">Choose:</string>
+    <string name="start_screen_open_qr_code_gen">Generate QR</string>
+    <string name="start_screen_open_posts_list">Open posts list</string>
+
     <string name="posts_list_title">All generated posts</string>
 
     <string name="post_detailed_title">Detailed post</string>
     <string name="post_detailed_id_label">post id:</string>
     <string name="post_detailed_title_label">post title:</string>
     <string name="post_detailed_body_label">post body:</string>
+
+    <string name="generate_qr_title">Generate QR</string>
+    <string name="generate_qr_btn">Generate</string>
+    <string name="generate_qr_canceled_msg">Cancelled</string>
+    <string name="fmt_generate_qr_scanned_w_results_msg">Scanned %s</string>
 </resources>

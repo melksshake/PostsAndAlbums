@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:title="@string/generate_qr_title" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalStartGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalEndGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <EditText
+        android:id="@+id/textToGenerate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:ignore="Autofill,LabelFor" />
+
+    <Button
+        android:id="@+id/generateQrBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/generate_qr_btn"
+        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/textToGenerate" />
+
+    <ImageView
+        android:id="@+id/qrResultCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/generateQrBtn"
+        tools:ignore="ContentDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>
