@@ -2,10 +2,19 @@
 <resources>
     <string name="loading_error_view_title">Ошибка при загрузке</string>
 
+    <string name="start_screen_title">Выберите:</string>
+    <string name="start_screen_open_qr_code_gen">Сенерировать QR</string>
+    <string name="start_screen_open_posts_list">Открыть список постов</string>
+
     <string name="posts_list_title">Все записи</string>
 
     <string name="post_detailed_title">Детальный просмотр</string>
     <string name="post_detailed_id_label">Id:</string>
     <string name="post_detailed_title_label">Заголовок:</string>
     <string name="post_detailed_body_label">Тело:</string>
+
+    <string name="generate_qr_title">Сгенерировать QR</string>
+    <string name="generate_qr_btn">Сгенерировать</string>
+    <string name="generate_qr_canceled_msg">Отменено</string>
+    <string name="fmt_generate_qr_scanned_w_results_msg">Отсканировано %s</string>
 </resources>

@@ -4,7 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/postListFragment">
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.melkonian.postsandalbums.presentation.fragments.StartFragment"
+        tools:layout="@layout/fmt_start">
+
+        <action
+            android:id="@+id/action_startScreen_to_postsList"
+            app:destination="@id/postListFragment" />
+        <action
+            android:id="@+id/action_startScreen_to_generateQr"
+            app:destination="@id/generateQrFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/postListFragment"
@@ -20,6 +33,12 @@
                 app:argType="com.melkonian.postsandalbums.presentation.models.PostModel" />
         </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/generateQrFragment"
+        android:name="com.melkonian.postsandalbums.presentation.fragments.GenerateQrFragment"
+        android:label="@string/generate_qr_title"
+        tools:layout="@layout/fmt_generate_qr" />
 
     <fragment
         android:id="@+id/postDetailedFragment"

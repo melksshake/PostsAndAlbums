@@ -69,10 +69,14 @@ configurations.all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    //QR
+    implementation('com.journeyapps:zxing-android-embedded:4.3.0') { transitive = false }
+    implementation 'com.google.zxing:core:3.3.0'
 
     // App dependencies
-    implementation "androidx.appcompat:appcompat:1.3.1"
+    implementation "androidx.appcompat:appcompat:1.4.0"
     implementation "com.google.android.material:material:1.4.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.annotation:annotation:1.3.0"
@@ -108,7 +112,7 @@ dependencies {
     testImplementation "androidx.test.ext:junit:1.1.3"
 
     // Dependencies for Scenarios
-    debugImplementation "androidx.fragment:fragment-testing:1.3.6"
+    debugImplementation 'androidx.fragment:fragment-testing:1.4.0'
     debugImplementation "androidx.test:core-ktx:1.4.0"
 
     androidTestImplementation "androidx.test.ext:junit:1.1.3"
