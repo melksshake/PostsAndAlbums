@@ -14,4 +14,8 @@ class StartViewModel @Inject constructor() : BaseViewModel() {
     fun onOpenPostsListClicked() {
         navigate(StartFragmentDirections.actionStartScreenToPostsList())
     }
+
+    fun onOpenSpeedometerClicked() {
+        navigate(StartFragmentDirections.actionStartScreenToSpeedometer())
+    }
 }

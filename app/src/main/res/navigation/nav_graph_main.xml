@@ -17,6 +17,10 @@
         <action
             android:id="@+id/action_startScreen_to_generateQr"
             app:destination="@id/generateQrFragment" />
+
+        <action
+            android:id="@+id/action_startScreen_to_speedometer"
+            app:destination="@id/speedometerFragment" />
     </fragment>
 
     <fragment
@@ -50,4 +54,10 @@
             app:argType="com.melkonian.postsandalbums.presentation.models.PostModel"
             app:nullable="false" />
     </fragment>
+
+    <fragment
+        android:id="@+id/speedometerFragment"
+        android:name="com.melkonian.postsandalbums.presentation.fragments.SpeedometerFragment"
+        android:label="@string/speedometer_screen_title"
+        tools:layout="@layout/fmt_speedometer" />
 </navigation>

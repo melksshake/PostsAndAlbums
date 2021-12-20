@@ -2,8 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/speedometerViewContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:title="@string/speedometer_screen_title" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/verticalStartGuideline"
@@ -19,44 +28,40 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="16dp" />
 
-    <TextView
-        android:id="@+id/titleTextView"
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/startRandomlySwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/start_screen_title"
-        android:textAppearance="@style/TextApp.Body"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/speedometer_is_random_switch_text"
+        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.melkonian.postsandalbums.utils.SpeedometerView
+        android:id="@+id/speedometerView"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/startRandomlySwitch" />
 
     <Button
-        android:id="@+id/openQrGenerationBtn"
+        android:id="@+id/startResetSpeedometerBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/speedometer_start_btn"
+        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/speedometerView" />
+
+    <Button
+        android:id="@+id/stopSpeedometerBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/start_screen_open_qr_code_gen"
+        android:text="@string/speedometer_stop_btn"
         app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
         app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
-
-    <Button
-        android:id="@+id/openPostsListBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/start_screen_open_posts_list"
-        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
-        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/openQrGenerationBtn" />
-
-    <Button
-        android:id="@+id/openGaugeBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/start_screen_open_speedometer"
-        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
-        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/openPostsListBtn" />
+        app:layout_constraintTop_toBottomOf="@id/startResetSpeedometerBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

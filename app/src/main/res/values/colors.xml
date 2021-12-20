@@ -11,4 +11,10 @@
 
     <color name="text_color">@android:color/black</color>
     <color name="text_label_color">#80000000</color>
+
+    <color name="first_section_color">#59F859</color>
+    <color name="second_section_color">#F8AE59</color>
+    <color name="third_section_color">#F85959</color>
+    <color name="center_circle_color">#434854</color>
+    <color name="pointer_line_color">#434854</color>
 </resources>
