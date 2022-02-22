@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/speedometerViewContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/speedometerViewContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:title="@string/speedometer_screen_title" />
+        android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/verticalStartGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:title="@string/speedometer_screen_title" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/verticalEndGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/verticalStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/startRandomlySwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/speedometer_is_random_switch_text"
-        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/verticalEndGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
 
-    <com.melkonian.postsandalbums.utils.SpeedometerView
-        android:id="@+id/speedometerView"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
-        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/startRandomlySwitch" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/startRandomlySwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/speedometer_is_random_switch_text"
+            app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <Button
-        android:id="@+id/startResetSpeedometerBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/speedometer_start_btn"
-        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
-        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/speedometerView" />
+        <com.melkonian.postsandalbums.utils.SpeedometerView
+            android:id="@+id/speedometerView"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+            app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/startRandomlySwitch" />
 
-    <Button
-        android:id="@+id/stopSpeedometerBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/speedometer_stop_btn"
-        app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
-        app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/startResetSpeedometerBtn" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/startResetSpeedometerBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/speedometer_start_btn"
+            app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+            app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/speedometerView" />
+
+        <Button
+            android:id="@+id/stopSpeedometerBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/speedometer_stop_btn"
+            app:layout_constraintEnd_toEndOf="@id/verticalEndGuideline"
+            app:layout_constraintStart_toStartOf="@id/verticalStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/startResetSpeedometerBtn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

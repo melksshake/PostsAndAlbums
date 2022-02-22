@@ -30,9 +30,9 @@ abstract class BaseFragment : Fragment() {
 //            view?.let { showErrorSnackBar(it, messageText) }
 //        })
 //
-        viewModel.message().observe(viewLifecycleOwner, { msgId ->
+        viewModel.message().observe(viewLifecycleOwner) { msgId ->
             showMessageSnackBar(msgId)
-        })
+        }
     }
 
     private fun showMessageSnackBar(@StringRes msgId: Int) {

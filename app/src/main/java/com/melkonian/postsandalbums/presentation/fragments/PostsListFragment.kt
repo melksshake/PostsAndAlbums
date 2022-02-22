@@ -33,13 +33,13 @@ class PostsListFragment : BaseFragment() {
 
         binding.errorLoading.errorRefreshButton.setOnClickListener { viewModel.onReloadClicked() }
 
-        viewModel.postsListUiState.observe(viewLifecycleOwner, { state ->
+        viewModel.postsListUiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 PostsListUiState.Loading -> showLoading()
                 PostsListUiState.Error -> showError()
                 is PostsListUiState.Data -> showData(state.posts)
             }
-        })
+        }
     }
 
     private fun showLoading() {

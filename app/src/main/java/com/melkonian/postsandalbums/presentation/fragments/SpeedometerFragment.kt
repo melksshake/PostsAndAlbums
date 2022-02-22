@@ -30,7 +30,7 @@ class SpeedometerFragment : BaseFragment() {
             controller.hide(WindowInsetsCompat.Type.systemBars())
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
-        
+
         return binding.root
     }
 
@@ -53,18 +53,26 @@ class SpeedometerFragment : BaseFragment() {
 
         binding.speedometerView.setPointerLineRotateDegree(START_POINTER_DEGREE)
 
-        viewModel.degree.observe(viewLifecycleOwner, { degree ->
+        viewModel.degree.observe(viewLifecycleOwner) { degree ->
             binding.speedometerView.setPointerLineRotateDegree(degree)
-        })
-        viewModel.isAllowToReset.observe(viewLifecycleOwner, {
+        }
+        viewModel.isAllowToReset.observe(viewLifecycleOwner) {
             binding.startResetSpeedometerBtn.text = if (it) {
                 getString(R.string.speedometer_reset_btn)
             } else {
                 getString(R.string.speedometer_start_btn)
             }
-        })
-        viewModel.isInProgress.observe(viewLifecycleOwner, {
-            binding.startResetSpeedometerBtn.isEnabled = !it
-        })
+        }
+        viewModel.isInProgress.observe(viewLifecycleOwner) { binding.startResetSpeedometerBtn.isEnabled = !it }
+        viewModel.isStopBtnEnabled.observe(viewLifecycleOwner) { binding.stopSpeedometerBtn.isEnabled = it }
+    }
+
+    override fun onStop() {
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
+        WindowInsetsControllerCompat(requireActivity().window, binding.speedometerViewContainer).let { controller ->
+            controller.show(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+        super.onStop()
     }
 }

@@ -9,9 +9,9 @@ import com.melkonian.postsandalbums.R
 class SpeedometerView : View {
     companion object {
         private const val START_ANGLE_FIRST_SECTION = 135f
-        private const val SWEEP_ANGLE_FIRST_SECTION = 90f
+        private const val SWEEP_ANGLE_FIRST_SECTION = 91f
         private const val START_ANGLE_SECOND_SECTION = 225f
-        private const val SWEEP_ANGLE_SECOND_SECTION = 100f
+        private const val SWEEP_ANGLE_SECOND_SECTION = 91f
         private const val START_ANGLE_THIRD_SECTION = 315f
         private const val SWEEP_ANGLE_THIRD_SECTION = 90f
     }
@@ -25,33 +25,59 @@ class SpeedometerView : View {
     private var colorFirstSection: Int = context.getColor(R.color.first_section_color)
     private var colorSecondSection: Int = context.getColor(R.color.second_section_color)
     private var colorThirdSection: Int = context.getColor(R.color.third_section_color)
-    private var colorMainCenterCircle: Int = Color.WHITE
-    private var colorCenterCircle: Int = context.getColor(R.color.center_circle_color)
-    private var colorPointerLine: Int = context.getColor(R.color.pointer_line_color)
+    private var colorNeedleCenterCircle: Int = Color.WHITE
+    private var colorNeedleCircle: Int = context.getColor(R.color.center_circle_color)
+    private var colorNeedleLine: Int = context.getColor(R.color.pointer_line_color)
 
     private val paintFirstSection = Paint()
     private val paintSecondSection = Paint()
     private val paintThirdSection = Paint()
 
-    private val pointerLine = Paint()
-    private val paintBottomCenterPointerCircle = Paint()
-    private val paintTopCenterPointerCircle = Paint()
+    private val paintNeedleLine = Paint()
+    private val paintBottomNeedleCircle = Paint()
+    private val paintTopNeedleCircle = Paint()
 
-    private var paddingMain = 0f
-    private var paddingInnerCircle = 0f
+    private val needlePath1 = Path().apply {
+        fillType = Path.FillType.EVEN_ODD
+    }
+    private val needlePath2 = Path().apply {
+        fillType = Path.FillType.EVEN_ODD
+    }
 
-    private var pointerLineRotateDegree = 0f
-    private var strokePointerLineWidth = 4.5f
+    private var speedometerInnerCircle = 0f
+
+    private var needleLineRotateDegree = 0f
+    private var strokeNeedleLineWidth = 4.5f
 
     private var x = 0f
     private var y = 0f
     private var constantMeasure = 0f
     private var isWidthBiggerThanHeight = false
 
-    private var internalArcStrokeWidthScale = 0.215
-    private var paddingInnerCircleScale = 0.27
-    private var pointerLineStrokeWidthScale = 0.006944
-    private val mainCircleScale = 5f
+    private var internalArcStrokeWidthScale = 0.25 //thickness of the speedometer
+    private var speedometerInnerCircleScale = 0.25 // scale of inner speedometer circle
+    private var needleLineStrokeWidthScale = 0.006944
+    private val needleCircleScale = 5f
+
+    init {
+        paintFirstSection.apply {
+            style = Paint.Style.STROKE
+            color = colorFirstSection
+            isAntiAlias = true
+        }
+
+        paintSecondSection.apply {
+            style = Paint.Style.STROKE
+            color = colorSecondSection
+            isAntiAlias = true
+        }
+
+        paintThirdSection.apply {
+            style = Paint.Style.STROKE
+            color = colorThirdSection
+            isAntiAlias = true
+        }
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -59,178 +85,113 @@ class SpeedometerView : View {
         x = width.toFloat()
         y = height.toFloat()
 
-        if (x >= y) {
-            constantMeasure = y
-            isWidthBiggerThanHeight = true
-        } else {
-            constantMeasure = x
-            isWidthBiggerThanHeight = false
-        }
+        constantMeasure = minOf(x, y)
+        isWidthBiggerThanHeight = x >= y
 
         internalArcStrokeWidth = (constantMeasure * internalArcStrokeWidthScale).toFloat()
-        paddingInnerCircle = (constantMeasure * paddingInnerCircleScale).toFloat()
-        strokePointerLineWidth = (constantMeasure * pointerLineStrokeWidthScale).toFloat()
+        speedometerInnerCircle = (constantMeasure * speedometerInnerCircleScale).toFloat()
+        strokeNeedleLineWidth = (constantMeasure * needleLineStrokeWidthScale).toFloat()
 
-        paintFirstSection.apply {
-            style = Paint.Style.STROKE
-            strokeWidth = internalArcStrokeWidth
-            color = colorFirstSection
-            isAntiAlias = true
-        }
+        paintFirstSection.strokeWidth = internalArcStrokeWidth
+        paintSecondSection.strokeWidth = internalArcStrokeWidth
+        paintThirdSection.strokeWidth = internalArcStrokeWidth
 
-        paintSecondSection.apply {
-            style = Paint.Style.STROKE
-            strokeWidth = internalArcStrokeWidth
-            color = colorSecondSection
-            isAntiAlias = true
-        }
+        drawSpeedometerSections(canvas)
+        drawSpeedometerNeedle(canvas)
+    }
 
-        paintThirdSection.apply {
-            style = Paint.Style.STROKE
-            strokeWidth = internalArcStrokeWidth
-            color = colorThirdSection
-            isAntiAlias = true
-        }
-
-        val rectfInner: RectF = if (isWidthBiggerThanHeight) {
-            RectF(
-                (x - constantMeasure) / 2 + paddingInnerCircle,
-                paddingInnerCircle,
-                (x - constantMeasure) / 2 + paddingInnerCircle + constantMeasure - 2
-                        * paddingInnerCircle,
-                constantMeasure - paddingInnerCircle
-            )
-        } else {
-            RectF(
-                paddingInnerCircle,
-                (y - constantMeasure) / 2 + paddingInnerCircle,
-                constantMeasure - paddingInnerCircle,
-                (y - constantMeasure) / 2
-                        + constantMeasure - paddingInnerCircle
-            )
-        }
-
+    private fun drawSpeedometerSections(canvas: Canvas) {
+        val speedometerBgSectionOval: RectF = getSpeedometerSectionOval(isWidthBiggerThanHeight)
         canvas.drawArc(
-            rectfInner,
+            speedometerBgSectionOval,
             START_ANGLE_FIRST_SECTION,
             SWEEP_ANGLE_FIRST_SECTION,
             false,
             paintFirstSection
         )
         canvas.drawArc(
-            rectfInner,
+            speedometerBgSectionOval,
             START_ANGLE_SECOND_SECTION,
             SWEEP_ANGLE_SECOND_SECTION,
             false,
             paintSecondSection
         )
         canvas.drawArc(
-            rectfInner,
+            speedometerBgSectionOval,
             START_ANGLE_THIRD_SECTION,
             SWEEP_ANGLE_THIRD_SECTION,
             false,
             paintThirdSection
         )
+    }
 
-        // pointer line START
-        pointerLine.apply {
-            color = colorPointerLine
-            strokeWidth = strokePointerLineWidth
+    private fun getSpeedometerSectionOval(isWidthBiggerThanHeight: Boolean): RectF {
+        return if (isWidthBiggerThanHeight) {
+            RectF(
+                (x - constantMeasure) / 2 + speedometerInnerCircle,
+                speedometerInnerCircle,
+                (x - constantMeasure) / 2 + speedometerInnerCircle + constantMeasure - 2 * speedometerInnerCircle,
+                constantMeasure - speedometerInnerCircle
+            )
+        } else {
+            RectF(
+                speedometerInnerCircle,
+                (y - constantMeasure) / 2 + speedometerInnerCircle,
+                constantMeasure - speedometerInnerCircle,
+                (y - constantMeasure) / 2 + constantMeasure - speedometerInnerCircle
+            )
+        }
+    }
+
+    private fun drawSpeedometerNeedle(canvas: Canvas) {
+        paintNeedleLine.apply {
+            color = colorNeedleLine
+            strokeWidth = strokeNeedleLineWidth
             isAntiAlias = true
         }
-        canvas.rotate(pointerLineRotateDegree, x / 2, y / 2)
+        canvas.rotate(needleLineRotateDegree, x / 2, y / 2)
 
-        val mainCircleStroke = (mainCircleScale * constantMeasure / 60).toInt()
-        val a = 8
+        val needleCircleStroke = (needleCircleScale * constantMeasure / 60).toInt()
+        val a = 10
         if (isWidthBiggerThanHeight) {
             val stopX =
-                (x - constantMeasure) / 2 + paddingInnerCircle + constantMeasure - 2 * paddingInnerCircle + mainCircleStroke
+                (x - constantMeasure) / 2 + speedometerInnerCircle + constantMeasure - 2 * speedometerInnerCircle + needleCircleStroke
             val stopY = y / 2
-            val path = Path()
-            path.fillType = Path.FillType.EVEN_ODD
-            path.moveTo(x / 2 + mainCircleStroke / a, y / 2 - mainCircleStroke)
-            path.lineTo(x / 2 + mainCircleStroke / a, y / 2 + mainCircleStroke)
-            path.lineTo(stopX, stopY)
-            path.close()
-            canvas.drawPath(path, pointerLine)
+
+            needlePath1.moveTo(x / 2 + needleCircleStroke / a, y / 2 - needleCircleStroke)
+            needlePath1.lineTo(x / 2 + needleCircleStroke / a, y / 2 + needleCircleStroke)
+            needlePath1.lineTo(stopX, stopY)
+            needlePath1.close()
+            canvas.drawPath(needlePath1, paintNeedleLine)
+            needlePath1.rewind()
         } else {
-            val stopX = constantMeasure - paddingInnerCircle + mainCircleStroke
+            val stopX = constantMeasure - speedometerInnerCircle + needleCircleStroke
             val stopY = y / 2
-            val path = Path()
-            path.fillType = Path.FillType.EVEN_ODD
-            path.moveTo(x / 2 + mainCircleStroke / a, y / 2 - mainCircleStroke)
-            path.lineTo(x / 2 + mainCircleStroke / a, y / 2 + mainCircleStroke)
-            path.lineTo(stopX, stopY)
-            path.close()
-            canvas.drawPath(path, pointerLine)
+
+            needlePath2.moveTo(x / 2 + needleCircleStroke / a, y / 2 - needleCircleStroke)
+            needlePath2.lineTo(x / 2 + needleCircleStroke / a, y / 2 + needleCircleStroke)
+            needlePath2.lineTo(stopX, stopY)
+            needlePath2.close()
+            canvas.drawPath(needlePath2, paintNeedleLine)
+            needlePath2.rewind()
         }
 
-        paintBottomCenterPointerCircle.apply {
+        paintBottomNeedleCircle.apply {
             style = Paint.Style.FILL
-            color = colorCenterCircle
+            color = colorNeedleCircle
             isAntiAlias = true
         }
-        canvas.drawCircle(x / 2, y / 2, mainCircleStroke.toFloat(), paintBottomCenterPointerCircle)
+        canvas.drawCircle(x / 2, y / 2, needleCircleStroke.toFloat(), paintBottomNeedleCircle)
 
-        paintTopCenterPointerCircle.apply {
+        paintTopNeedleCircle.apply {
             style = Paint.Style.FILL
-            color = colorMainCenterCircle
+            color = colorNeedleCenterCircle
         }
-        canvas.drawCircle(x / 2, y / 2, mainCircleStroke.toFloat() / 2, paintTopCenterPointerCircle)
-    }
-
-    fun setInternalArcStrokeWidth(internalArcStrokeWidth: Float) {
-        this.internalArcStrokeWidth = internalArcStrokeWidth
-        invalidate()
-    }
-
-    fun setColorFirstSection(colorFirstItem: Int) {
-        this.colorFirstSection = colorFirstItem
-        invalidate()
-    }
-
-    fun setColorSecondSection(colorSecondItem: Int) {
-        this.colorSecondSection = colorSecondItem
-        invalidate()
-    }
-
-    fun setColorThirdSection(colorThirdItem: Int) {
-        this.colorThirdSection = colorThirdItem
-        invalidate()
-    }
-
-    fun setColorCenterCircle(colorCenterCircle: Int) {
-        this.colorCenterCircle = colorCenterCircle
-        invalidate()
-    }
-
-    fun setColorMainCenterCircle(colorMainCenterCircle: Int) {
-        this.colorMainCenterCircle = colorMainCenterCircle
-        invalidate()
-    }
-
-    fun setColorPointerLine(colorPointerLine: Int) {
-        this.colorPointerLine = colorPointerLine
-        invalidate()
-    }
-
-    fun setPaddingMain(paddingMain: Float) {
-        this.paddingMain = paddingMain
-        invalidate()
-    }
-
-    fun setPaddingInnerCircle(paddingInnerCircle: Float) {
-        this.paddingInnerCircle = paddingInnerCircle
-        invalidate()
+        canvas.drawCircle(x / 2, y / 2, needleCircleStroke.toFloat() / 2, paintTopNeedleCircle)
     }
 
     fun setPointerLineRotateDegree(rotateDegree: Float) {
-        this.pointerLineRotateDegree = rotateDegree
-        invalidate()
-    }
-
-    fun setStrokePointerLineWidth(strokePointerLineWidth: Float) {
-        this.strokePointerLineWidth = strokePointerLineWidth
+        this.needleLineRotateDegree = rotateDegree
         invalidate()
     }
 
@@ -244,100 +205,11 @@ class SpeedometerView : View {
         invalidate()
     }
 
-    fun setConstantMeasure(constantMeasure: Float) {
-        this.constantMeasure = constantMeasure
-        invalidate()
-    }
-
-    fun setWidthBiggerThanHeight(isWidthBiggerThanHeight: Boolean) {
-        this.isWidthBiggerThanHeight = isWidthBiggerThanHeight
-        invalidate()
-    }
-
-    fun setInternalArcStrokeWidthScale(internalArcStrokeWidthScale: Double) {
-        this.internalArcStrokeWidthScale = internalArcStrokeWidthScale
-        invalidate()
-    }
-
-    fun setPaddingInnerCircleScale(paddingInnerCircleScale: Double) {
-        this.paddingInnerCircleScale = paddingInnerCircleScale
-        invalidate()
-    }
-
-    fun setPointerLineStrokeWidthScale(pointerLineStrokeWidthScale: Double) {
-        this.pointerLineStrokeWidthScale = pointerLineStrokeWidthScale
-        invalidate()
-    }
-
-    fun getInternalArcStrokeWidth(): Float {
-        return internalArcStrokeWidth
-    }
-
-    fun getColorFirstItem(): Int {
-        return colorFirstSection
-    }
-
-    fun getColorSecondItem(): Int {
-        return colorSecondSection
-    }
-
-    fun getColorThirdItem(): Int {
-        return colorThirdSection
-    }
-
-    fun getColorCenterCircle(): Int {
-        return colorCenterCircle
-    }
-
-    fun getColorMainCenterCircle(): Int {
-        return colorMainCenterCircle
-    }
-
-    fun getColorPointerLine(): Int {
-        return colorPointerLine
-    }
-
-    fun getPaddingMain(): Float {
-        return paddingMain
-    }
-
-    fun getPaddingInnerCircle(): Float {
-        return paddingInnerCircle
-    }
-
-    fun getRotateDegree(): Float {
-        return pointerLineRotateDegree
-    }
-
-    fun getStrokePointerLineWidth(): Float {
-        return strokePointerLineWidth
-    }
-
     override fun getX(): Float {
         return x
     }
 
     override fun getY(): Float {
         return y
-    }
-
-    fun getConstantMeasure(): Float {
-        return constantMeasure
-    }
-
-    fun isWidthBiggerThanHeight(): Boolean {
-        return isWidthBiggerThanHeight
-    }
-
-    fun getInternalArcStrokeWidthScale(): Double {
-        return internalArcStrokeWidthScale
-    }
-
-    fun getPaddingInnerCircleScale(): Double {
-        return paddingInnerCircleScale
-    }
-
-    fun getPointerLineStrokeWidthScale(): Double {
-        return pointerLineStrokeWidthScale
     }
 }
