@@ -16,11 +16,7 @@ class StartFragment : BaseFragment() {
 
     override val viewModel: StartViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FmtStartBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -31,6 +27,7 @@ class StartFragment : BaseFragment() {
         binding.run {
             openQrGenerationBtn.setOnClickListener { viewModel.onOpenQrClicked() }
             openPostsListBtn.setOnClickListener { viewModel.onOpenPostsListClicked() }
+            openGaugeBtn.setOnClickListener { viewModel.onOpenSpeedometerClicked() }
         }
     }
 }

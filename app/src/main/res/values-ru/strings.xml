@@ -5,6 +5,7 @@
     <string name="start_screen_title">Выберите:</string>
     <string name="start_screen_open_qr_code_gen">Сенерировать QR</string>
     <string name="start_screen_open_posts_list">Открыть список постов</string>
+    <string name="start_screen_open_speedometer">Открыть экран спидометра</string>
 
     <string name="posts_list_title">Все записи</string>
 
@@ -17,4 +18,10 @@
     <string name="generate_qr_btn">Сгенерировать</string>
     <string name="generate_qr_canceled_msg">Отменено</string>
     <string name="fmt_generate_qr_scanned_w_results_msg">Отсканировано %s</string>
+
+    <string name="speedometer_screen_title">Спидометр</string>
+    <string name="speedometer_is_random_switch_text">Спидометр с рандомными значениями</string>
+    <string name="speedometer_start_btn">Запустить</string>
+    <string name="speedometer_stop_btn">Стоп</string>
+    <string name="speedometer_reset_btn">Сбросить</string>
 </resources>

@@ -35,12 +35,12 @@ class PostDetailedFragment : BaseFragment() {
 
         setupToolbar(binding.toolbar)
 
-        viewModel.postData.observe(viewLifecycleOwner, { post ->
+        viewModel.postData.observe(viewLifecycleOwner) { post ->
             binding.run {
                 postIdTextView.text = post.id
                 postTitleTextView.text = post.title
                 postBodyTextView.text = post.body
             }
-        })
+        }
     }
 }

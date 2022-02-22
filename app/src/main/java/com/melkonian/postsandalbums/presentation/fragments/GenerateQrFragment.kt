@@ -15,13 +15,11 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import com.journeyapps.barcodescanner.ScanContract
-import com.melkonian.postsandalbums.R
 import com.melkonian.postsandalbums.databinding.FmtGenerateQrBinding
 import com.melkonian.postsandalbums.presentation.base.BaseFragment
 import com.melkonian.postsandalbums.presentation.viewmodels.GenerateQrViewModel
+import com.melkonian.postsandalbums.utils.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class GenerateQrFragment : BaseFragment() {
@@ -33,11 +31,7 @@ class GenerateQrFragment : BaseFragment() {
 
     override val viewModel: GenerateQrViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FmtGenerateQrBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,6 +39,7 @@ class GenerateQrFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolbar(binding.toolbar)
         binding.textToGenerate.addTextChangedListener(PhraseToQrEditText())
 
         binding.generateQrBtn.setOnClickListener { generateQR() }
@@ -52,10 +47,10 @@ class GenerateQrFragment : BaseFragment() {
 
     private fun generateQR() {
         val textToGenerate = viewModel.phaseToQr.value?.toString() ?: return
-        val writter = MultiFormatWriter()
+        val writer = MultiFormatWriter()
 
         try {
-            val mMatrix: BitMatrix = writter.encode(
+            val mMatrix: BitMatrix = writer.encode(
                 textToGenerate,
                 BarcodeFormat.QR_CODE,
                 QR_CODE_IMAGE_SIZE,

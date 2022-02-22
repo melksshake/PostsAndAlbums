@@ -12,7 +12,7 @@ import com.melkonian.postsandalbums.R
 import com.melkonian.postsandalbums.presentation.base.BaseViewModel
 
 fun Fragment.setupNavigation(viewModel: BaseViewModel) {
-    viewModel.navigationCommands.observe(viewLifecycleOwner, { command ->
+    viewModel.navigationCommands.observe(viewLifecycleOwner) { command ->
         when (command) {
             is BaseViewModel.NavigationCommand.To -> {
                 if (command.popUpInclusive) {
@@ -30,7 +30,7 @@ fun Fragment.setupNavigation(viewModel: BaseViewModel) {
             }
             BaseViewModel.NavigationCommand.Up -> findNavController().navigateUp()
         }
-    })
+    }
 }
 
 fun Fragment.setupToolbar(toolbar: Toolbar) {

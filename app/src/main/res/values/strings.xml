@@ -6,6 +6,7 @@
     <string name="start_screen_title">Choose:</string>
     <string name="start_screen_open_qr_code_gen">Generate QR</string>
     <string name="start_screen_open_posts_list">Open posts list</string>
+    <string name="start_screen_open_speedometer">Open speedo screen</string>
 
     <string name="posts_list_title">All generated posts</string>
 
@@ -18,4 +19,10 @@
     <string name="generate_qr_btn">Generate</string>
     <string name="generate_qr_canceled_msg">Cancelled</string>
     <string name="fmt_generate_qr_scanned_w_results_msg">Scanned %s</string>
+
+    <string name="speedometer_screen_title">Speedometer</string>
+    <string name="speedometer_is_random_switch_text">Does speedometer goes with random values</string>
+    <string name="speedometer_start_btn">Start</string>
+    <string name="speedometer_stop_btn">Stop</string>
+    <string name="speedometer_reset_btn">Reset</string>
 </resources>
