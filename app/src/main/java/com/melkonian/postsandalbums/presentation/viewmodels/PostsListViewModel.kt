@@ -12,6 +12,10 @@ import com.melkonian.postsandalbums.presentation.models.PostModel
 import com.melkonian.postsandalbums.utils.Mapper
 import com.melkonian.postsandalbums.utils.updateValue
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +32,19 @@ class PostsListViewModel @Inject constructor(
         viewModelScope.launch { loadPosts() }
         MutableLiveData<List<PostModel>>()
     }
+
+    val postsList1: StateFlow<List<PostModel>> = interactor.getPostsFlow()
+        .map { list ->
+            mutableListOf<PostModel>().apply {
+                list.forEach {
+                    postListMapper.map(it)
+                }
+            }
+        }.stateIn(
+            initialValue = emptyList(),
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000)
+        )
 
     val postsListUiState: LiveData<PostsListUiState> by lazy {
         MediatorLiveData<PostsListUiState>().apply {

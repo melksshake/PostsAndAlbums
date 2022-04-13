@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.melkonian.postsandalbums.com.melkonian.postsandalbums.utils.HorizontalDividerItemDecoration
 import com.melkonian.postsandalbums.databinding.FmtPostsListBinding
 import com.melkonian.postsandalbums.presentation.adapters.PostsAdapter
@@ -14,6 +17,8 @@ import com.melkonian.postsandalbums.presentation.viewmodels.PostsListViewModel
 import com.melkonian.postsandalbums.presentation.viewmodels.PostsListViewModel.PostsListUiState
 import com.melkonian.postsandalbums.utils.setupToolbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PostsListFragment : BaseFragment() {
@@ -32,6 +37,21 @@ class PostsListFragment : BaseFragment() {
         setupToolbar(binding.toolbar)
 
         binding.errorLoading.errorRefreshButton.setOnClickListener { viewModel.onReloadClicked() }
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.postsList1.collect { list ->
+                    binding.albumsList.run {
+                        adapter = PostsAdapter().apply {
+                            hasFixedSize()
+                            submitList(list)
+                            setOnItemClickAction { post -> viewModel.onListItemClicked(post) }
+                        }
+                        addItemDecoration(HorizontalDividerItemDecoration(requireContext()))
+                    }
+                }
+            }
+        }
 
         viewModel.postsListUiState.observe(viewLifecycleOwner) { state ->
             when (state) {

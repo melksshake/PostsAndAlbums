@@ -8,6 +8,8 @@ import com.melkonian.postsandalbums.domain.entity.PostEntity
 import com.melkonian.postsandalbums.utils.fromAssets
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -22,5 +24,13 @@ class PostsMockApi @Inject constructor(
             null,
             200
         )
+    }
+
+    override fun getPostsFlow(): Flow<List<PostEntity>> {
+        return flow { NetworkResponse.Success(
+            gson.fromAssets(context, "posts.json"),
+            null,
+            200
+        ) }
     }
 }

@@ -9,6 +9,7 @@ import com.melkonian.postsandalbums.domain.entity.ErrorEntity
 import com.melkonian.postsandalbums.domain.entity.PostEntity
 import dagger.Lazy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -32,5 +33,9 @@ class PostsService @Inject constructor(
 
     override suspend fun getPosts(): NetworkResponse<List<PostEntity>, ErrorEntity> {
         return api.getPosts()
+    }
+
+    override fun getPostsFlow(): Flow<List<PostEntity>> {
+        return api.getPostsFlow()
     }
 }
